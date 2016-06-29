@@ -18,8 +18,8 @@
 
 
 
-<code>
 <pre>
+<code>
 var sites = {
   //6间房
   room6:"http://v.6.cn/getVisitorMoreList.php?&p=1&size=18",
@@ -67,5 +67,5 @@ var sites = {
     shouji:"http://www.kktv5.com/CDN/output/M/3/I/20010302/P/cataId-321_start-0_offset-25_platform-1_a-2_c-100101/json.js",
   }
 }
-</pre>
 </code>
+</pre>
