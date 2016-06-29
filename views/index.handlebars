@@ -1,0 +1,321 @@
+<div class="container" id="wrap">
+    <!--<div class="groups">-->
+        <!--<h2 class="tit wohai-site">-->
+            <!--<em class="name">我嗨私播</em>-->
+            <!--<span>聚集超高颜值美女帅哥、热门网红、校花校草、逗比萌妹的直播社交娱乐平台</span>-->
+            <!--<a href="#" class="more">更多</a>-->
+            <!--<div class="sec-line"></div>-->
+        <!--</h2>-->
+        <!--<ul class="anchors clearfix">-->
+            <!--<li class="anchor">-->
+                <!--<a href="http://wohai.com/#/room/{{anchorId}}" target="_blank">-->
+                    <!--<div class="pic-wrap">-->
+                        <!--<img class="anchor-pic" src="{{photo}}" />-->
+                    <!--</div>-->
+                    <!--<span class="anchor-info ng-binding">{{nickname}}<img src="http://images.wohai.com/images/level/anchor/{{level}}.png" class="level"/></span>-->
+                    <!--<span class="along-shadow"></span>-->
+
+                    <!--<span class="live-icon"></span>-->
+                    <!--<span class="hover-shadow"></span>-->
+                    <!--<span class="view-icon"></span>-->
+                    <!--<span class="num"><i></i>{{audience}}</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+</div>
+
+
+<script type="text/javascript">
+    $(function(){
+        var lists = {
+            wohai: {name: '我嗨私播',url:'wohai',path:'http://www.wohai.com/#/room/',moreHref:'http://www.wohai.com', desc: '聚集超高颜值美女帅哥、热门网红、校花校草、逗比萌妹的直播娱乐平台'},
+            room6: {name: '六间房',url:'room6',path:'http://v.6.cn/',moreHref:'http://v.6.cn/', desc: '最大的真人互动视频直播社区'},
+            fanxing: {name: '繁星直播',url:'fanxing',path:'http://fanxing.kugou.com/',moreHref:'http://fanxing.kugou.com', desc: '唱歌最好听的直播平台'},
+            laifeng: {name: '来疯直播',url:'laifeng',path:'http://v.laifeng.com/',moreHref:'http://www.laifeng.com/center', desc: '互联网最火的视频直播生活秀平台'},
+            huya: {name: '虎牙直播',url:'huya',path:'http://www.huya.com/',moreHref:'http://www.huya.com/l', desc: '视频直播和各种游戏赛事的直播平台'},
+            bobo: {name: 'BoBo娱乐',url:'bobo',path:'http://www.bobo.com/',moreHref:'http://www.bobo.com/anchor?type=gold', desc: '网易旗下大型在线视频娱乐社区'},
+            kk: {name: 'KKTV',url:'kk',path:'http://www.kktv5.com/show/',moreHref:'http://www.kktv5.com/list/46', desc: '每天2000个新主播'}
+        }
+        var $wrap = $('#wrap');
+
+
+
+        //生成  group
+        var generateGroup = function(params,list){
+            var _html = [
+                '<div class="groups ',params.url,'-site">',
+                '<h2 class="tit">',
+                '<em class="name">',params.name,'</em>',
+                '<span>',params.desc,'</span>',
+                '<a href="',params.moreHref,'"  target="_blank" class="more">更多</a>',
+                '<div class="sec-line"></div>',
+                '</h2>',
+                '<ul class="anchors clearfix">',
+                list,
+                '</ul>',
+                '</div>'
+            ];
+            return _html.join('');
+        }
+
+
+        //1.6间房
+        var generateRoom = function(params,data){
+            var list = [];
+            for(var i=0;i<data.length;i++){
+                list.push([
+                    '<li class="anchor">',
+                      '<a href="',params.path,data[i].rid,'" target="_blank">',
+                        '<div class="pic-wrap">',
+                          '<img class="anchor-pic" src="',data[i].pic,'" />',
+                        '</div>',
+                        '<span class="anchor-info ng-binding">',data[i].username,'' +
+                          //'<img src="http://images.wohai.com/images/level/anchor/{{level}}.png" class="level"/>',
+                        '</span>',
+                        '<span class="along-shadow"></span>',
+                        '<span class="live-icon"></span>',
+                        '<span class="hover-shadow"></span>',
+                        '<span class="view-icon"></span>',
+                        '<span class="num"><i></i>',data[i].audience,'</span>',
+                      '</a>',
+                    '</li>'
+              ].join(''));
+            }
+//            $wrap.append(generateGroup(params,list.join('')));
+            if($wrap.find('.'+params.url+'-site').length>0){
+                console.log('替换 ','.'+params.url+'-site')
+                $wrap.find('.'+params.url+'-site').replaceWith(generateGroup(params,list.join('')))
+            }else{
+                $wrap.append(generateGroup(params,list.join('')));
+            }
+        }
+
+        //2.我嗨私播
+        var generateWohai = function(params,data){
+            var list = [];
+            for(var i=0;i<data.length;i++){
+                list.push([
+                    '<li class="anchor">',
+                    '<a href="',params.path,data[i].anchorId,'" target="_blank">',
+                      '<div class="pic-wrap">',
+                        '<img class="anchor-pic" src="',data[i].photo,'" />',
+                      '</div>',
+                      '<span class="anchor-info ng-binding">',data[i].nickname,'' +
+                          '<img src="http://images.wohai.com/images/level/anchor/',data[i].level,'.png" class="level"/>',
+                      '</span>',
+                      (data[i].status==1?'<span class="along-shadow"></span><span class="live-icon"></span><span class="hover-shadow"></span><span class="view-icon"></span><span class="num"><i></i>'+data[i].audience+'</span>':''),
+                    '</a>',
+                    '</li>'
+                ].join(''));
+            }
+//            $wrap.append(generateGroup(params,list.join('')));
+            if($wrap.find('.'+params.url+'-site').length>0){
+                console.log('替换 ','.'+params.url+'-site')
+                $wrap.find('.'+params.url+'-site').replaceWith(generateGroup(params,list.join('')))
+            }else{
+                $wrap.append(generateGroup(params,list.join('')));
+            }
+        }
+
+        //3.繁星
+        var generateFanxin = function(params,data){
+            var
+                    list = [],
+                    j = data.length>20?20:data.length;
+            for(var i=0;i<j;i++){
+                list.push([
+                    '<li class="anchor">',
+                    '<a href="',params.path,data[i].roomId,'" target="_blank">',
+                      '<div class="pic-wrap">',
+                      '<img class="anchor-pic" src="',data[i].imgPath,'" />',
+                      '</div>',
+                      '<span class="anchor-info ng-binding">',data[i].nickName ,
+                      '<img src="',data[i].starIcon,'" class="level"/>',
+                      '</span>',
+                      '<span class="along-shadow"></span><span class="live-icon"></span><span class="hover-shadow"></span><span class="view-icon"></span><span class="num"><i></i>',data[i].viewerNum,'</span>',
+                    '</a>',
+                    '</li>'
+                ].join(''));
+            }
+//            $wrap.append(generateGroup(params,list.join('')));
+            if($wrap.find('.'+params.url+'-site').length>0){
+                console.log('替换 ','.'+params.url+'-site')
+                $wrap.find('.'+params.url+'-site').replaceWith(generateGroup(params,list.join('')))
+            }else{
+                $wrap.append(generateGroup(params,list.join('')));
+            }
+        }
+
+
+        //4.虎牙
+        var generateHuya = function(params,data){
+            var list = [];
+            for(var i=0;i<data.length;i++){
+                list.push([
+                    '<li class="anchor">',
+                    '<a href="',params.path,data[i].privateHost,'" target="_blank">',
+                    '<div class="pic-wrap">',
+                    '<img class="anchor-pic" src="',data[i].screenshot,'" />',
+                    '</div>',
+                    '<div class="clearfix"><span class="anchor-info">',data[i].nick,'</span><em class="pull-right">',data[i].gameFullName,'</em>',
+                    '</div>',
+                    '<span class="along-shadow"></span>',
+                    '<span class="live-icon"></span>',
+                    '<span class="hover-shadow"></span>',
+                    '<span class="view-icon"></span>',
+                    '<span class="num"><i></i>',(data[i].totalCount/10000),'万</span>',
+                    '</a>',
+                    '</li>'
+                ].join(''));
+            }
+//            $wrap.append(generateGroup(params,list.join('')));
+            if($wrap.find('.'+params.url+'-site').length>0){
+                console.log('替换 ','.'+params.url+'-site')
+                $wrap.find('.'+params.url+'-site').replaceWith(generateGroup(params,list.join('')))
+            }else{
+                $wrap.append(generateGroup(params,list.join('')));
+            }
+        }
+
+        //5.BoBo
+        var generateBobo = function(params,data){
+            var list = [];
+            for(var i=0;i<data.length;i++){
+                list.push([
+                    '<li class="anchor">',
+                    '<a href="',params.path,data[i].roomId,'" target="_blank">',
+                    '<div class="pic-wrap">',
+                    '<img class="anchor-pic" src="',data[i].liveCover,'" />',
+                    '</div>',
+                    '<span class="anchor-info ng-binding">',data[i].roomName ,
+                    '<img src="http://img1.cache.netease.com/bobo/medal/anchor529/',data[i].anchorLevel,'.gif" class="level"/>',
+                    '</span>',
+                    '<span class="along-shadow"></span><span class="live-icon"></span><span class="hover-shadow"></span><span class="view-icon"></span><span class="num"><i></i>',
+                    data[i].onlineUserCount,'</span>',
+                    '</a>',
+                    '</li>'
+                ].join(''));
+            }
+//            $wrap.append(generateGroup(params,list.join('')));
+            if($wrap.find('.'+params.url+'-site').length>0){
+                console.log('替换 ','.'+params.url+'-site')
+                $wrap.find('.'+params.url+'-site').replaceWith(generateGroup(params,list.join('')))
+            }else{
+                $wrap.append(generateGroup(params,list.join('')));
+            }
+
+        }
+
+
+        //6.KK
+        var generateKk = function(params,data){
+            var list = [];
+            for(var i=0;i<data.length;i++){
+                list.push([
+                    '<li class="anchor">',
+                    '<a href="',params.path,data[i].roomId,'" target="_blank">',
+                    '<div class="pic-wrap">',
+                    '<img class="anchor-pic" src="http://ures.kktv8.com/kktv',(data[i].live_poster_290||data[i].portrait_path_original),'" />',
+                    '</div>',
+                    '<span class="anchor-info ng-binding">',data[i].nickname ,
+                    '<img src="http://www.kktv5.com/images/richlevel/v',data[i].richLevel,'.gif" class="level"/>',
+                    '</span>',
+                    '<span class="along-shadow"></span><span class="live-icon"></span><span class="hover-shadow"></span><span class="view-icon"></span><span class="num"><i></i>',
+                    data[i].onlineCount,'</span>',
+                    '</a>',
+                    '</li>'
+                ].join(''));
+            }
+
+           // console.log('.'+params.url+'-site',$wrap.find('.'+params.url+'-site').length);
+            if($wrap.find('.'+params.url+'-site').length>0){
+                console.log('替换 ','.'+params.url+'-site')
+                $wrap.find('.'+params.url+'-site').replaceWith(generateGroup(params,list.join('')))
+            }else{
+                $wrap.append(generateGroup(params,list.join('')));
+            }
+
+
+            //if(params.url=='kk'){
+
+        }
+
+
+        function getAnchorBySite(params){
+            var params = params;
+            $.ajax({
+                url: '/anchors/'+params.url,
+                type: 'GET',
+                contentType:"application/json; charset=utf-8",
+                success: function(data) {
+                    //console.log(data);
+                    data  = $.parseJSON(data);
+                    if(params.url=='room6'){
+                        data = data.content.data;
+                        generateRoom(params,data);
+                    }
+                    if(params.url=='wohai'){
+                        data = data.content;
+                        generateWohai(params,data);
+                    }
+                    if(params.url=='huya'){
+                        data = data.result.list;
+                        generateHuya(params,data);
+                    }
+                    if(params.url=='bobo'){
+                        //console.log(data);
+                        data = data.anchorList;
+                        generateBobo(params,data);
+                    }
+                    if(params.url=='kk'){
+                        data = data.roomList;
+                        generateKk(params,data);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        }
+
+        function getAnchorByFanxing(params){
+            $.ajax({
+                type:"get",
+                url:"http://visitor.fanxing.kugou.com/VServices/IndexService.IndexService.getLiveList/1-4-1/",/*url写异域的请求地址*/
+                dataType:"jsonp",/*加上datatype*/
+                jsonpCallback:"jsonpcallback_httpvisitorfanxingkugoucomVServicesIndexServiceIndexServicegetLiveList141",
+                success:function(data){
+                    //console.log(data);
+                    data = data.data;
+                    generateFanxin(params,data);
+                }
+            });
+
+        }
+
+
+
+        //1.获取我嗨数据
+        var initData = function(){
+            getAnchorBySite(lists.wohai);
+            getAnchorByFanxing(lists.fanxing);
+            setTimeout(function(){getAnchorBySite(lists.room6)},50);
+            setTimeout(function(){getAnchorBySite(lists.huya)},150);
+            setTimeout(function(){getAnchorBySite(lists.bobo)},200);
+            setTimeout(function(){getAnchorBySite(lists.kk)},250);
+        }
+        initData();
+
+        //30秒自动刷新
+        setInterval(function(){
+            initData()
+        },600000);
+
+
+
+
+
+
+    });
+</script>
